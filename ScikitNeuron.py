@@ -2,12 +2,14 @@
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import LeaveOneOut
+from sklearn.model_selection import KFold
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt 
 from tqdm import tqdm
+import torch as torch
 
 iris = datasets.load_iris()
 
@@ -25,7 +27,7 @@ sc.fit(x_train)
 x_train_std = sc.transform(x_train)
 x_test_std = sc.transform(x_test)
 
-loo = LeaveOneOut()
+loo = KFold(7)
 for llambda in lambdas:
 	lambda_score = []
 	for train, test in tqdm(loo.split(x_train_std), total = loo.get_n_splits(x_train_std)):
